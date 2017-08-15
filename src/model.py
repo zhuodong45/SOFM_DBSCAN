@@ -2,6 +2,7 @@ import numpy as np
 import csv
 from neupy import algorithms, environment
 import matplotlib.pyplot as plt
+from src import som
 
 # data for each year
 # used to store data
@@ -46,18 +47,30 @@ big_data = np.concatenate((data_2015[1:, 1:], data_2016[1:, 1:], data_2017[1:, 1
 big_data = big_data.astype(np.float32)
 
 # ======================================================================================================================
+from src import som_tf
 
-sofm = algorithms.SOFM(
-        n_inputs=8,
-        n_outputs=5,
-        learning_radius=0,
-        step=0.25,
-        shuffle_data=True,
-        weight='sample_from_data',
-        verbose=True
-)
-sofm.train(big_data, epochs=200)
-output = sofm.predict(big_data)
+som = som_tf.SOM(20, 30, 8, 400)
+som.train(big_data)
+
+# SOM = som.SelfOrganizingMap(8, 5)
+# BMU = som.BestMatchingUnit(SOM)
+# BTsom = som.BasicTrainSOM(SOM, 0.1, 200, 5)
+# BTsom._train(BMU, BTsom.correction_matrix, big_data)
+
+# sofm = algorithms.SOFM(
+#         n_inputs=8,
+#         n_outputs=5,
+#         learning_radius=0,
+#         step=0.25,
+#         shuffle_data=True,
+#         weight='sample_from_data',
+#         verbose=True
+# )
+# sofm.train(big_data, epochs=200)
+# output = sofm.predict(big_data)
+
+# bmu = som.BestMatchingUnit(sofm)
+# print(bmu.calculate_bmu(sofm))
 
 # print(output[:100])
 
